@@ -1,0 +1,145 @@
+[
+    {
+        "model": "app.User",
+        "pk": 1,
+        "fields": {
+            "username": "mike",
+            "email": "m@m.com",
+            "is_staff": true,
+            "is_superuser": true,
+            "password": "mike1234"
+        }
+    },
+    {
+        "model": "app.Category",
+        "pk": 1,
+        "fields": {
+            "name": "category 1",
+            "description": "category 1 desc"
+        }
+    },
+    {
+        "model": "app.Category",
+        "pk": 2,
+        "fields": {
+            "name": "category 2",
+            "description": "category 2 desc"
+        }
+    },
+    {
+        "model": "app.Brand",
+        "pk": 1,
+        "fields": {
+            "name": "category 1",
+            "description": "category 1 desc"
+        }
+    },
+    {
+        "model": "app.Brand",
+        "pk": 2,
+        "fields": {
+            "name": "brand 2",
+            "description": "brand 2 desc"
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 1,
+        "fields": {
+            "name": "product 1",
+            "description": "product 1 desc",
+            "price": 10.00,
+            "category": [1,2],
+            "brand": 1
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 2,
+        "fields": {
+            "name": "product 2",
+            "description": "product 2 desc",
+            "price": 20.00,
+            "category": [1],
+            "brand": 2
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 3,
+        "fields": {
+            "name": "product 3",
+            "description": "product 3 desc",
+            "price": 30.00,
+            "category": [2],
+            "brand": 1
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 4,
+        "fields": {
+            "name": "Chamba",
+            "description": "product 4 desc",
+            "price": 60.00,
+            "category": null,
+            "brand": 1
+        }
+    },
+    {
+        "model": "app.Watch",
+        "pk": 1,
+        "fields": {
+            "product": 1,
+            "user": 1,
+            "priority": 5
+        }
+    },
+    {
+        "model": "app.Watch",
+        "pk": 2,
+        "fields": {
+            "product": 2,
+            "user": 1,
+            "priority": 3
+        }
+    },
+    {
+        "model": "app.Cart",
+        "pk": 1,
+        "fields": {
+            "name": "my first cart",
+            "user": 1
+        }
+    },
+    {
+        "model": "app.CartItem",
+        "pk": 1,
+        "fields": {
+            "product": 1,
+            "cart": 1,
+            "quantity": 3,
+            "description": "i really need this"
+        }
+    },
+    {
+        "model": "app.CartItem",
+        "pk": 2,
+        "fields": {
+            "product": 2,
+            "cart": 1,
+            "quantity": 1,
+            "description": "maybe if i have money i will get this"
+        }
+    },
+    {
+        "model": "app.PrescriptionPermission",
+        "pk": 1,
+        "fields": {
+            "product": 4,
+            "user": 1,
+            "quantity": 10
+        }
+    }
+    
+]

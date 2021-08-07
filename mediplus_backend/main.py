@@ -1,0 +1,1 @@
+from shared_backend.wsgi import application as app
