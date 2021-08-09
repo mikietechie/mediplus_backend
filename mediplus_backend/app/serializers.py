@@ -105,7 +105,7 @@ class CartSerializer(ModelSerializer):
         return ReturnDict(
             {
                 **self.data,
-                "items": [CartItemSerializer(cart_item) for cart_item in self.instance.cart_items],
+                "items": [CartItemSerializer(cart_item).full_data for cart_item in self.instance.cart_items],
                 'total': self.instance.total
             },
             serializer=self

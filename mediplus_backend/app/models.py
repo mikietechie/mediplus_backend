@@ -37,28 +37,26 @@ class HasDate(models.Model):
 
 
 #   Modified models fields
-class ImageField(models.ImageField):
+class ImageFieldFile(models.fields.files.ImageFieldFile):
     @property
-    def url(*args, **kwargs):
-        try:
-            return super().url
-        except:
-            return None
+    def url(self): return self.storage.url(self.name) if self.name else None
+
+
+class FileField(models.fields.files.FieldFile):
+    @property
+    def url(self): return self.storage.url(self.name) if self.name else None
+
+
+class ImageField(models.ImageField):
+    attr_class = ImageFieldFile
+    @property
+    def url(self): return self.storage.url(self.name) if self.name else None
 
 
 class FileField(models.FileField):
+    attr_class = FileField
     @property
-    def url(*args, **kwargs):
-        try:
-            return super().url
-        except:
-            return None
-
-
-class MoneyField(models.FloatField):
-    def get_prep_value(self, value):
-        value = super().get_prep_value(value)
-        return round(value, 2) if isinstance(value, float) else value
+    def url(*args, **kwargs): return self.storage.url(self.name) if self.name else None
 
 
 #### models ####
@@ -92,7 +90,7 @@ class Category(HasName, HasStars):
 
 
 class Brand(HasName, HasStars):
-    logo = models.URLField(max_length=10024)
+    logo = models.URLField(max_length=10024, blank=True, null=True)
     description = models.TextField(max_length=516, blank=True, null=True)
 
     @property
@@ -107,7 +105,7 @@ class Brand(HasName, HasStars):
 class Product(HasName, HasStars):
     """Model defination for Product"""
     code = models.CharField(max_length=64, blank=True, null=True)
-    price = MoneyField(default=0.0)
+    price = models.FloatField(default=0.0)
     description = models.TextField(max_length=516, blank=True, null=True)
     image = ImageField(upload_to=f"products", blank=True, null=True)
     category = models.ManyToManyField(Category, related_name="category_products", blank=True)
@@ -163,7 +161,7 @@ class PrescribePermission(models.Model):
 class Watch(models.Model):
     product = models.ForeignKey(Product, related_name="product_watches", on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, related_name="user_watch_list", on_delete=models.CASCADE)
-    priority = models.IntegerField(choices=[(i,i) for i in range(5)])
+    priority = models.IntegerField(choices=[(i,i) for i in range(0,6)])
     timestamp = models.DateTimeField("Created on", auto_now_add=True)
 
     def __str__(self): return f"{self.user} watching {self.item}"
@@ -251,11 +249,11 @@ class CartItem(models.Model):
         if self.quantity > self.product.quantity:
             raise QuantityException("Insufficient products in stock!!!")
         for cart_item in self.cart.cart_items:
-            if cart_item.item.pk == self.item.pk:
+            if cart_item.product.pk == self.product.pk:
                 return CartItem.objects.filter(pk=cart_item.pk).update(quantity = self.quantity, description = self.description)
         super().save(self, *args, **kwargs)
 
     def __str__(self): return f"{self.product} {self.quantity}"
 
     @property
-    def price(self): return self.item.selling_price * self.quantity
+    def price(self): return self.product.selling_price * self.quantity

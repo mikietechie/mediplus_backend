@@ -51,7 +51,8 @@
             "price": 10.00,
             "category": [1,2],
             "brand": 1,
-            "date": "2003-10-27"
+            "date": "2003-10-27",
+            "quantity": 10
         }
     },
     {
@@ -87,7 +88,8 @@
             "price": 60.00,
             "category": [],
             "brand": 1,
-            "date": "2003-10-27"
+            "date": "2003-10-27",
+            "requires_prescription": true 
         }
     },
     {
@@ -96,7 +98,7 @@
         "fields": {
             "product": 1,
             "user": 1,
-            "priority": 5,
+            "priority": 3,
             "timestamp": "2021-08-08"
         }
     },
