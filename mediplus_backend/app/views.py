@@ -33,7 +33,7 @@ from rest_framework.utils.serializer_helpers import ReturnList, ReturnDict
 
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.apps import apps
 from django.db.models import Q
@@ -87,7 +87,7 @@ class UserDetailAPIView(APIView):
         try:
             return User.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         user = self.get_user(request.GET)
@@ -99,7 +99,7 @@ class UserDetailAPIView(APIView):
         serialized_user = UserSerializer(user, data=request.data)
         if serialized_user.is_valid():
             serialized_user.save()
-            return Response(getattr(serialized_user, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_user, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_user.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -133,7 +133,7 @@ class CategoryDetailAPIView(APIView):
         try:
             return Category.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         category = self.get_category(request.GET)
@@ -145,7 +145,7 @@ class CategoryDetailAPIView(APIView):
         serialized_category = CategorySerializer(category, data=request.data)
         if serialized_category.is_valid():
             serialized_category.save()
-            return Response(getattr(serialized_category, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_category, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_category.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -179,7 +179,7 @@ class BrandDetailAPIView(APIView):
         try:
             return Brand.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         brand = self.get_brand(request.GET)
@@ -191,7 +191,7 @@ class BrandDetailAPIView(APIView):
         serialized_brand = BrandSerializer(brand, data=request.data)
         if serialized_brand.is_valid():
             serialized_brand.save()
-            return Response(getattr(serialized_brand, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_brand, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_brand.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -247,7 +247,7 @@ class ProductDetailAPIView(APIView):
         try:
             return Product.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         product = self.get_product(request.GET)
@@ -259,7 +259,7 @@ class ProductDetailAPIView(APIView):
         serialized_product = ProductSerializer(product, data=request.data)
         if serialized_product.is_valid():
             serialized_product.save()
-            return Response(getattr(serialized_product, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_product, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_product.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -315,7 +315,7 @@ class CartDetailAPIView(APIView):
         try:
             return Cart.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         cart = self.get_cart(request.GET)
@@ -327,7 +327,7 @@ class CartDetailAPIView(APIView):
         serialized_cart = CartSerializer(cart, data=request.data)
         if serialized_cart.is_valid():
             serialized_cart.save()
-            return Response(getattr(serialized_cart, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_cart, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_cart.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -383,7 +383,7 @@ class CartItemDetailAPIView(APIView):
         try:
             return CartItem.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         cart_item = self.get_cart_item(request.GET)
@@ -395,7 +395,7 @@ class CartItemDetailAPIView(APIView):
         serialized_cart_item = CartItemSerializer(cart_item, data=request.data)
         if serialized_cart_item.is_valid():
             serialized_cart_item.save()
-            return Response(getattr(serialized_cart_item, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_cart_item, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_cart_item.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -451,7 +451,7 @@ class WatchDetailAPIView(APIView):
         try:
             return Watch.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         watch = self.get_watch(request.GET)
@@ -463,7 +463,7 @@ class WatchDetailAPIView(APIView):
         serialized_watch = WatchSerializer(watch, data=request.data)
         if serialized_watch.is_valid():
             serialized_watch.save()
-            return Response(getattr(serialized_watch, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_watch, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_watch.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):
@@ -519,7 +519,7 @@ class PrescribePermissionDetailAPIView(APIView):
         try:
             return PrescribePermission.objects.get(**clean_filters(filters))
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Not found")
 
     def get(self, request, serializer_data):
         prescribe_permission = self.get_prescribe_permission(request.GET)
@@ -531,7 +531,7 @@ class PrescribePermissionDetailAPIView(APIView):
         serialized_prescribe_permission = PrescribePermissionSerializer(prescribe_permission, data=request.data)
         if serialized_prescribe_permission.is_valid():
             serialized_prescribe_permission.save()
-            return Response(getattr(serialized_prescribe_permission, serializer_data), status=status.HTTP_201_CREATED)
+            return Response(getattr(serialized_prescribe_permission, serializer_data), status=status.HTTP_202_ACCEPTED)
         return Response(serialized_prescribe_permission.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, serializer_data):

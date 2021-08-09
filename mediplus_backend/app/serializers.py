@@ -16,7 +16,7 @@ class UserSerializer(ModelSerializer):
             {
                 **self.data,
                 'carts': [CartSerializer(cart).data for cart in self.instance.carts],
-                "watches": [WatchSerializer(watch).data for Watch in self.instance.watches]
+                "watches": [WatchSerializer(watch).data for watch in self.instance.watches]
             },
             serializer=self
         )

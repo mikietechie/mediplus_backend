@@ -50,7 +50,8 @@
             "description": "product 1 desc",
             "price": 10.00,
             "category": [1,2],
-            "brand": 1
+            "brand": 1,
+            "date": "2003-10-27"
         }
     },
     {
@@ -61,7 +62,8 @@
             "description": "product 2 desc",
             "price": 20.00,
             "category": [1],
-            "brand": 2
+            "brand": 2,
+            "date": "2003-10-27"
         }
     },
     {
@@ -72,7 +74,8 @@
             "description": "product 3 desc",
             "price": 30.00,
             "category": [2],
-            "brand": 1
+            "brand": 1,
+            "date": "2003-10-27"
         }
     },
     {
@@ -82,8 +85,9 @@
             "name": "Chamba",
             "description": "product 4 desc",
             "price": 60.00,
-            "category": null,
-            "brand": 1
+            "category": [],
+            "brand": 1,
+            "date": "2003-10-27"
         }
     },
     {
@@ -92,7 +96,8 @@
         "fields": {
             "product": 1,
             "user": 1,
-            "priority": 5
+            "priority": 5,
+            "timestamp": "2021-08-08"
         }
     },
     {
@@ -101,7 +106,8 @@
         "fields": {
             "product": 2,
             "user": 1,
-            "priority": 3
+            "priority": 3,
+            "timestamp": "2021-08-08"
         }
     },
     {
@@ -109,7 +115,8 @@
         "pk": 1,
         "fields": {
             "name": "my first cart",
-            "user": 1
+            "user": 1,
+            "timestamp": "2021-08-08"
         }
     },
     {
@@ -133,12 +140,14 @@
         }
     },
     {
-        "model": "app.PrescriptionPermission",
+        "model": "app.PrescribePermission",
         "pk": 1,
         "fields": {
             "product": 4,
             "user": 1,
-            "quantity": 10
+            "quantity": 10,
+            "granted_on": "2021-08-08",
+            "expires_on": "2021-08-30"
         }
     }
     
