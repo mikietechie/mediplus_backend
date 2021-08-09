@@ -57,10 +57,8 @@ class FileField(models.FileField):
 
 class MoneyField(models.FloatField):
     def get_prep_value(self, value):
-        value = super().get_prep_value(self, value)
-        if isinstance(value, float):
-            return round(value, 2)
-        return value
+        value = super().get_prep_value(value)
+        return round(value, 2) if isinstance(value, float) else value
 
 
 #### models ####
@@ -74,6 +72,9 @@ class User(AbstractUser):
     
     @property
     def prescriptions(self): return self.user_prescribe_permissions.all()
+
+    class Meta:
+        ordering = ["id"]
 
 
 class Category(HasName, HasStars):
@@ -106,7 +107,7 @@ class Brand(HasName, HasStars):
 class Product(HasName, HasStars):
     """Model defination for Product"""
     code = models.CharField(max_length=64, blank=True, null=True)
-    price = models.FloatField(default=0.0)
+    price = MoneyField(default=0.0)
     description = models.TextField(max_length=516, blank=True, null=True)
     image = ImageField(upload_to=f"products", blank=True, null=True)
     category = models.ManyToManyField(Category, related_name="category_products", blank=True)
@@ -114,7 +115,7 @@ class Product(HasName, HasStars):
     parent = models.ManyToManyField("self", related_name="product_products", blank=True)
     sibling = models.ManyToManyField("self", related_name="product_siblings", blank=True)
     discount = models.FloatField(default=0)
-    date = models.DateField(auto_now=True)
+    date = models.DateField(auto_now_add=True)
     for_sale = models.BooleanField(default=True)
     is_parent_only = models.BooleanField(default=False)
     requires_prescription = models.BooleanField(default=False)
@@ -146,8 +147,8 @@ class Product(HasName, HasStars):
 class PrescribePermission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_prescribe_permissions")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_prescribe_permissions")
-    granted_on = models.DateTimeField(auto_created=True)
-    expires_on = models.DateTimeField()
+    granted_on = models.DateTimeField(auto_now_add=True)
+    expires_on = models.DateTimeField(default=datetime.datetime.max)
     quantity = models.IntegerField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
