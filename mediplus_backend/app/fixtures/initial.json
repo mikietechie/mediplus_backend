@@ -30,8 +30,8 @@
         "model": "app.Brand",
         "pk": 1,
         "fields": {
-            "name": "category 1",
-            "description": "category 1 desc"
+            "name": "brand 1",
+            "description": "brand 1 desc"
         }
     },
     {
