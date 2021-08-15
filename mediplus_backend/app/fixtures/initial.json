@@ -1,5 +1,21 @@
 [
     {
+        "model": "app.Company",
+        "pk": 1,
+        "fields": {
+            "name": "Medi Plus",
+            "email": "mediplus@mail.com",
+            "sales_email": "sales@mediplus.com",
+            "phone": "+263771588144",
+            "telephone": "+263771588144",
+            "whatsapp_phone": "+263771588144",
+            "logo": "/img/logo.png",
+            "profile_book": "/files/profile.pdf",
+            "address": "Stand #11, Lorraine Drive BluffHill, Harare",
+            "geo_position": "lorem ipsum dolor simet"
+        }
+    },
+    {
         "model": "app.User",
         "pk": 1,
         "fields": {

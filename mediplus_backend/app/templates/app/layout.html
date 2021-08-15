@@ -1,0 +1,45 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mike Zinyoni @aone software systems">
+        <title>{% block tite %}{{company.name}} | Site{% endblock tite %}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'app/lib/bootstrap5/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'app/lib/mdb-bootstrap-5/css/mdb.min.css' %}" rel="stylesheet">
+        <link href="{% static 'app/lib/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+        <link href="{% static 'app/lib/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+        <link rel="stylesheet" href="{% static 'app/css/styles.css' %}">
+    </head>
+    <body>
+        <!--Header-->
+        {% include "app/navbar.html" %}
+        <main>
+            {% block body %}
+            
+            {% endblock body %}
+        </main>
+
+        <!--Back to top-->
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+            <i class="bi bi-arrow-up-short"></i>
+        </a>
+        <!--Pre loader-->
+        <div id="preloader"></div>
+        <!--JS static files-->
+        <script src="{% static 'app/lib/bootstrap5/js/bootstrap.bundle.js' %}"></script>
+        <script src="{% static 'app/lib/mdb-bootstrap-5/js/mdb.min.js' %}"></script>
+        <script src="{% static 'app/lib/swiper/swiper-bundle.min.js' %}"></script>
+
+        <script src="{% static 'app/js/common.js' %}"></script>
+        <script src="{% static 'app/js/ajax.js' %}"></script>
+        <script src="{% static 'app/js/zoom-image.js' %}"></script>
+        <script src="{% static 'app/js/send-email.js' %}"></script>
+        <script src="{% static 'app/js/main.js' %}"></script>
+    </body>
+</html>

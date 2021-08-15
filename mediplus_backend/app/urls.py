@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import (
+from app.views import (
+    #   REST API views
     email_API_view,
     product_search_API_view,
     raw_sql_API_view,
@@ -18,7 +19,12 @@ from .views import (
     WatchAPIView,
     WatchDetailAPIView,
     PrescribePermissionAPIView,
-    PrescribePermissionDetailAPIView
+    PrescribePermissionDetailAPIView,
+    #   HTTP SOAP Views
+    index_view,
+    login_view,
+    register_view,
+    logout_view
 )
 
 
@@ -41,5 +47,9 @@ urlpatterns = [
     path('api/cart_items_detail_api_view/<str:serializer_data>/', CartItemDetailAPIView.as_view(), name="CartItemDetailAPIView"),
     path('api/email/', email_API_view, name="EmailAPIView"),
     path('api/search/<str:search_string>/', product_search_API_view, name="SearchActionAPIView"),
-    path('api/raw_sql/', raw_sql_API_view, name="RawSQLAPIView")
+    path('api/raw_sql/', raw_sql_API_view, name="RawSQLAPIView"),
+    path("login/", login_view, name="login_view"),
+    path("logout/", logout_view, name="logout_view"),
+    path("register/", register_view, name="register_view"),
+    path("", index_view, name="index_view"),
 ]

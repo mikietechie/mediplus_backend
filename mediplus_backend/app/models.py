@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
-import datetime
+import datetime, random
 
 #   Exceptions
 class PrescriptionException(Exception): pass
@@ -257,3 +257,36 @@ class CartItem(models.Model):
 
     @property
     def price(self): return self.product.selling_price * self.quantity
+
+
+class Company(HasName):
+    email = models.EmailField(max_length=256, unique=True)
+    sales_email = models.EmailField(max_length=256)
+    phone = models.CharField(max_length=16)
+    telephone = models.CharField(max_length=16)
+    whatsapp_phone = models.CharField(max_length=16)
+    logo = ImageField(upload_to='company/logos', height_field=None, width_field=None, blank=True, null=True)
+    profile_book = FileField(upload_to=r'company/books', blank=True, null=True)
+    address = models.TextField(max_length=516)
+    geo_position = models.TextField(max_length="12000", blank=True, null=True)
+    
+    @property
+    def brands(self): return Brand.objects.filter(stars__gte = 3)
+    
+    @property
+    def categories(self): return Category.objects.filter(stars__gte = 3)
+    
+    @property
+    def products(self): return Product.objects.filter(stars__gte=3)
+
+    @property
+    def featured_products(self): return random.choices(list(Product.objects.order_by("-stars")[:12]), k=12)
+        
+    class Meta:
+        verbose_name = 'Company'
+        verbose_name_plural = 'Companies'
+    
+    def save(self, *args, **kwargs):
+        if self.id and (self.id > 1):
+            raise Exception("Can only have one company in this app!!!")
+        super().save(*args, **kwargs)

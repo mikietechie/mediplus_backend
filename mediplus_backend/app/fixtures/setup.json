@@ -1,0 +1,111 @@
+[
+    {
+        "model": "app.Company",
+        "pk": 1,
+        "fields": {
+            "name": "Medi Plus",
+            "email": "mediplus@mail.com",
+            "sales_email": "sales@mediplus.com",
+            "phone": "+263771588144",
+            "telephone": "+263771588144",
+            "whatsapp_phone": "+263771588144",
+            "logo": "/img/logo.png",
+            "profile_book": "/files/profile.pdf",
+            "address": "Stand #11, Lorraine Drive BluffHill, Harare",
+            "geo_position": "lorem ipsum dolor simet"
+        }
+    },
+    {
+        "model": "app.User",
+        "pk": 1,
+        "fields": {
+            "username": "mike",
+            "email": "m@m.com",
+            "is_staff": true,
+            "is_superuser": true,
+            "password": "mike1234"
+        }
+    },
+    {
+        "model": "app.Category",
+        "pk": 1,
+        "fields": {
+            "name": "Beauty",
+            "description": "Beauty products"
+        }
+    },
+    {
+        "model": "app.Category",
+        "pk": 2,
+        "fields": {
+            "name": "Body Building",
+            "description": "Body building products and equipment"
+        }
+    },
+    {
+        "model": "app.Brand",
+        "pk": 1,
+        "fields": {
+            "name": "Ingrams",
+            "description": "Ingrams the skin doctors"
+        }
+    },
+    {
+        "model": "app.Brand",
+        "pk": 2,
+        "fields": {
+            "name": "Tapout",
+            "description": "Unleash the beast in you, patner with tapout!"
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 1,
+        "fields": {
+            "name": "Camphor",
+            "description": "Ingrams body lotion",
+            "price": 2.99,
+            "category": [1],
+            "brand": 1,
+            "date": "2003-10-27",
+            "quantity": 10
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 2,
+        "fields": {
+            "name": "Vaseline",
+            "description": "Vaseline jelly",
+            "price": 20.00,
+            "category": [1],
+            "brand": 1,
+            "date": "2003-10-27"
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 3,
+        "fields": {
+            "name": "Big B",
+            "description": "Bicep expander",
+            "price": 30.00,
+            "category": [2],
+            "brand": 2,
+            "date": "2003-10-27"
+        }
+    },
+    {
+        "model": "app.Product",
+        "pk": 4,
+        "fields": {
+            "name": "Chamba",
+            "description": "Hair grower",
+            "price": 10.00,
+            "category": [1],
+            "brand": null,
+            "date": "2003-10-27",
+            "requires_prescription": true 
+        }
+    }
+]

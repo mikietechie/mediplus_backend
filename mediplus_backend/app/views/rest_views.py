@@ -35,7 +35,6 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
-from django.apps import apps
 from django.db.models import Q
 import json
 

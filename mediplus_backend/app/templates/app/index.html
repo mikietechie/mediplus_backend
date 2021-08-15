@@ -1,0 +1,57 @@
+{% extends 'app/layout.html' %}
+{% block title %}
+  {{company.name}} | Home
+{% endblock title %}
+{% block body %}
+  
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+    <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+    <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+    <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+    <div class="carousel-item active">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+
+        <div class="container">
+        <div class="carousel-caption text-start">
+            <h1>Sahara Engineering Equipment</h1>
+            <p>Welcome to Sahara Engineering Equipment, your dear one stop shop for all your engineering machinery, tools and parts!</p>
+            <p><a class="btn btn-lg btn-primary" href="#" role="button">Get started</a></p>
+        </div>
+        </div>
+    </div>
+    <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+
+        <div class="container">
+        <div class="carousel-caption">
+            <h1>Shop online, anywhere any time!</h1>
+            <p>With Sahara Engineering Equipment you are one click away from the provision of all your engineering services and products!</p>
+            <p><a class="btn btn-lg btn-primary" href="#" role="button">Start Now</a></p>
+        </div>
+        </div>
+    </div>
+    <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+
+        <div class="container">
+        <div class="carousel-caption text-end">
+            <h1>A Plus, first class engineering solutions</h1>
+            <p>Get in touch with us for your next civil, mechanichal, electrical, mining or chemical engineering project!</p>
+            <p><a class="btn btn-lg btn-primary" href="#" role="button">Ping Us</a></p>
+        </div>
+        </div>
+    </div>
+    </div>
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
+    <span class="bx bx-left-arrow" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
+    <span class="bx bx-right-arrow" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+    </a>
+</div>
+{% endblock body %}
