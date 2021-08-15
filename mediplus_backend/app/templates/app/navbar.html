@@ -358,24 +358,6 @@
     onscroll(document, navbarlinksActive)
   
     /**
-     * Scrolls to an element with header offset
-     */
-    const scrollto = (el) => {
-      let header = select('#header')
-      let offset = header.offsetHeight
-  
-      if (!header.classList.contains('header-scrolled')) {
-        offset -= 16
-      }
-  
-      let elementPos = select(el).offsetTop
-      window.scrollTo({
-        top: elementPos - offset,
-        behavior: 'smooth'
-      })
-    }
-  
-    /**
      * Toggle .header-scrolled class to #header when page is scrolled
      */
     let selectHeader = select('#header')
@@ -423,24 +405,6 @@
       if (select('#navbar').classList.contains('navbar-mobile')) {
         e.preventDefault()
         this.nextElementSibling.classList.toggle('dropdown-active')
-      }
-    }, true)
-  
-    /**
-     * Scrool with ofset on links with a class name .scrollto
-     */
-    on('click', '.scrollto', function(e) {
-      if (select(this.hash)) {
-        e.preventDefault()
-  
-        let navbar = select('#navbar')
-        if (navbar.classList.contains('navbar-mobile')) {
-          navbar.classList.remove('navbar-mobile')
-          let navbarToggle = select('.mobile-nav-toggle')
-          navbarToggle.classList.toggle('bi-menu')
-          navbarToggle.classList.toggle('bx-window-close')
-        }
-        scrollto(this.hash)
       }
     }, true)
   
