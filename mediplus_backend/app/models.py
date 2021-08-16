@@ -61,6 +61,14 @@ class FileField(models.FileField):
 
 #### models ####
 class User(AbstractUser):
+    phone = models.CharField(max_length=16, blank=True, null=True)
+    address = models.TextField(max_length=512, blank=True, null=True)
+    image = ImageField(upload_to="users", blank=True, null=True)
+    DOB = models.DateField(blank=True, null=True)
+
+
+    def __str__(self):
+        return self.first_name + self.last_name
     
     @property
     def carts(self): return self.user_carts.all()
@@ -78,7 +86,7 @@ class User(AbstractUser):
 class Category(HasName, HasStars):
     """Model definition for Category."""
     description = models.TextField(max_length=516)
-    image = ImageField(upload_to=f'categories', blank=True, null=True)
+    image = ImageField(upload_to='categories', blank=True, null=True)
     
     @property
     def products(self): return self.category_products.filter(stars__gte = 3)
@@ -107,7 +115,7 @@ class Product(HasName, HasStars):
     code = models.CharField(max_length=64, blank=True, null=True)
     price = models.FloatField(default=0.0)
     description = models.TextField(max_length=516, blank=True, null=True)
-    image = ImageField(upload_to=f"products", blank=True, null=True)
+    image = ImageField(upload_to="products", blank=True, null=True)
     category = models.ManyToManyField(Category, related_name="category_products", blank=True)
     brand = models.ForeignKey(Brand, related_name='brand_products', blank=True, null=True, on_delete=models.CASCADE)
     parent = models.ManyToManyField("self", related_name="product_products", blank=True)

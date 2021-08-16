@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="Mike Zinyoni @aone software systems">
-        <title>{% block tite %}{{company.name}} | Site{% endblock tite %}</title>
+        <title>{% block title %}{{company.name}} | Site{% endblock title %}</title>
 
         <!-- Bootstrap core CSS -->
         <link href="{% static 'app/lib/bootstrap5/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -27,7 +27,7 @@
 
         <!--Back to top-->
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-            <i class="bi bi-arrow-up-short"></i>
+            <i class="bx bx-up-arrow"></i>
         </a>
         <!--Pre loader-->
         <div id="preloader"></div>

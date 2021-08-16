@@ -1,0 +1,173 @@
+{% extends 'app/layout.html' %}
+{% block title %}
+    {{company.name}} | Sign Up
+{% endblock title %}
+{% block body %}
+    <section class="register container">
+        <h2 class="text-center my-5 text-info">Medi Plus | Sign Up</h2>
+        <form action="/register/" method="POST" class="card py-5" id="register-form">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <h6>
+                    <div class="alert alert-warning d-none"></div>
+                </h6>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Micheal" aria-describedby="first_name-help" required minlength="3" maxlength="128" />
+                            <label for="first_name">First Name</label>
+                        </div>
+                        <div id="first_name-help" class="form-text text-end text-info">Your First Name</div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Zee" aria-describedby="last_name-help" required minlength="3" maxlength="128" />
+                            <label for="last_name">Last Name</label>
+                        </div>
+                        <div id="last_name-help" class="form-text text-end text-info">Your Last Name</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="mzee@somewhere.com" aria-describedby="email-help" required minlength="3" maxlength="128" />
+                            <label for="email">Email</label>
+                        </div>
+                        <div id="email-help" class="form-text text-end text-info">Your Email</div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="tel" name="phone" id="phone" class="form-control" placeholder="+000 111 222 333" aria-describedby="phone-help" required minlength="6" maxlength="16" />
+                            <label for="phone">Phone</label>
+                        </div>
+                        <div id="phone-help" class="form-text text-end text-info">Your Phone</div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="date" name="DOB" id="DOB" class="form-control" placeholder="18 April 1980" aria-describedby="DOB-help" required min="1914-10-12" max="2016-10-12" />
+                            <label for="DOB">DOB</label>
+                        </div>
+                        <div id="DOB-help" class="form-text text-end text-info">Your Date Of Birth</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="form-floating">
+                            <textarea name="address" id="address" class="form-control w-100" style="min-height: 100px;" placeholder="Stand #0, Street, City" aria-describedby="address-help" required maxlength="512" minlength="8"></textarea>
+                            <label for="address">Address</label>
+                        </div>
+                        <div id="address-help" class="form-text text-end text-info">Your Address</div>
+                    </div>
+                </div>
+                <div class="row mb-4 d-flex justify-content-between">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                          <input type="file" class="form-control" id="image" name="image" placeholder="name@example.com" />
+                          <label for="image">Profile Photo</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="" alt="" id="img-display" class="img-thumbnail m-auto d-none">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="p@$$code" aria-describedby="password-help" required minlength="8" maxlength="16" />
+                            <label for="password">Password</label>
+                        </div>
+                        <div id="password-help" class="form-text text-end text-info">Your Password</div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
+                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="p@$$code" aria-describedby="confirm-password-help" required minlength="8" maxlength="16" />
+                            <label for="confirm-password">Confirm Password</label>
+                        </div>
+                        <div id="confirm-password-help" class="form-text text-end text-info">Re-enter your password!</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 mx-auto mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Sign Up <i class="bx bx-user"></i></button>
+                    </div>
+                    <p class="text-center">OR</p>
+                    <div class="col-md-4 mx-auto mb-3">
+                        <a href="/login" class="btn btn-secondary w-100">Sign In <i class="bx bx bx-log-in"></i></a>
+                    </div>
+                </div>
+                {% if message %}
+                    <div class="row py-2">
+                        <div class="col-md-12">
+                            <p class="alert alert-danger text-center">{{message}} <i class="bx bx-error"></i></p>
+                        </div>
+                    </div>
+                {% endif %}
+                    
+            </div>
+        </form>
+    </section>
+    <style>
+        body {
+            background-image: url("/static/app/img/pillsn5.jpeg");
+            background-position: center;
+            background-repeat: repeat-y;
+            background-size: cover;
+        }
+        #img-display {
+            width: auto;
+            max-width: 100%;
+            max-height: 200px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const select = (selector) => document.querySelector(selector)
+            const on = (element, event, callBack) => {element.addEventListener(event, callBack)}
+            const getInputValue = (inputID) => select(inputID).value;
+            const focus = (inputID) => select(inputID).focus();
+            const scrollTo = (inputID) => window.scrollTo(0, select(inputID).offsetTop)
+            let form = select("#register-form");
+            let imageInput = select("#image");
+            let img = select("#img-display");
+
+            const showError = (message, inputID) => {
+                select(".alert-warning").innerText = message;
+                scrollTo(".alert-warning");
+                select(".alert-warning").classList.remove("d-none");
+                setTimeout(() =>{
+                    scrollTo(inputID)
+                    focus(inputID)
+                }, 1000)
+            }
+
+            on(imageInput, "change", () => {
+                if (imageInput.files.length) {
+                    img.classList.remove("d-none");
+                    let reader = new FileReader();
+                    let file = imageInput.files[0];
+                    reader.onload = (e) => {
+                        img.src = e.target.result
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    img.classList.add("d-none")
+                }
+            })
+
+            if (select(".alert-danger")) {scrollTo(".alert-danger")}
+            
+            on(form, "submit", (e) => {
+                e.preventDefault();
+                //  Password confirmation
+                if (getInputValue("#password") !== getInputValue("#confirm-password")) {
+                    showError("Password confirmation failed!", "#password")
+                    return false
+                }
+                select(".alert-warning").classList.add("d-none")
+                form.submit()
+            })
+
+
+        })
+    </script>
+{% endblock body %}

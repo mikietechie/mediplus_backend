@@ -23,9 +23,9 @@ def index_view(request):
 def login_view(request):
     if request.method == "POST":
         # Attempt to sign user in
-        username = request.POST["username"]
+        email = request.POST["email"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
         # Check if authentication successful
         if user is not None:
             login(request, user)
@@ -35,8 +35,7 @@ def login_view(request):
             return render(request, "app/login.html", {
                 "message": "Invalid username and/or password."
             })
-    else:
-        return render(request, "app/login.html")
+    return render(request, "app/login.html")
 
 @login_required(login_url="/login")
 def logout_view(request):
@@ -46,20 +45,24 @@ def logout_view(request):
 
 def register_view(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
+        password = request.POST.get("password")
+        password_confirmation = request.POST.get("password_confirmation")
+        if password != password_confirmation:
             return render(request, "app/register.html", {
                 "message": "Passwords must match."
             })
-
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User(
+                email=request.POST.get("email"),
+                first_name=request.POST.get("first_name"),
+                last_name=request.POST.get("last_name"),
+                phone=request.POST.get("phone"),
+                image=request.POST.get("image"),
+                DOB=request.POST.get("DOB"),
+                address=request.POST.get("address")
+            )
+            user.set_password(password)
             user.save()
         except IntegrityError:
             return render(request, "app/register.html", {
@@ -68,6 +71,5 @@ def register_view(request):
         login(request, user)
         next_view = dict(request.GET).get("next", "index")
         return HttpResponseRedirect(reverse(next))
-    else:
-        return render(request, "app/register.html")
+    return render(request, "app/register.html")
 

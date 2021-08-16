@@ -1,0 +1,65 @@
+{% extends 'app/layout.html' %}
+{% block title %}
+    {{company.name}} | Sign In
+{% endblock title %}
+{% block body %}
+    <section class="login">
+        <h2 class="text-center my-5 text-info">Medi Plus | Sign In</h2>
+        <form action="/login/" method="POST" class="card py-5">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com" aria-describedby="emailHelp" autofocus />
+                            <label for="email">Email address</label>
+                        </div>
+                        <div id="emailHelp" class="form-text text-end text-info">Your Email</div>
+                    </div>
+                    <div class="col-md-12 mb-4">
+                        <div class="form-floating">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="p@$$kode" aria-describedby="passwordHelp" />
+                            <label for="password">Password</label>
+                        </div>
+                        <div id="passwordHelp" class="form-text text-end text-info">Your Password</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mx-auto mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Sign In <i class="bx bx bx-log-in"></i></button>
+                    </div>
+                    <div class="col-md-6 mx-auto mb-3">
+                        <a href="/register" class="btn btn-secondary w-100">Sign Up <i class="bx bx-user"></i></a>
+                    </div>
+                </div>
+                {% if message %}
+                    <div class="row py-2">
+                        <div class="col-md-12">
+                            <p class="alert alert-danger alert-dismissible text-center">{{message}} <i class="bx bx-error"></i></p>
+                        </div>
+                    </div>
+                {% endif %}
+                    
+            </div>
+        </form>
+    </section>
+    <style>
+        body {
+            background-image: url("/static/app/img/pillsn5.jpeg");
+            background-position: center;
+            background-repeat: repeat-y;
+            background-size: cover;
+        }
+        .login {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @media (max-width: 600px) {
+            .login {
+                width: 80%;
+            }
+        }
+    </style>
+{% endblock body %}
