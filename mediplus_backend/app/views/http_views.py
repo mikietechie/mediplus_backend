@@ -1,4 +1,5 @@
 from django.shortcuts import render, reverse, redirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from app.models import (
@@ -12,6 +13,8 @@ from app.models import (
     PrescribePermission,
     Company
 )
+from django.db import IntegrityError
+from app.forms import UserForm
 
 
 def index_view(request):
@@ -25,12 +28,18 @@ def login_view(request):
         # Attempt to sign user in
         email = request.POST["email"]
         password = request.POST["password"]
-        user = authenticate(request, email=email, password=password)
+        try:
+            user = User.objects.get(email=email)
+        except:
+            return render(request, "app/login.html", {
+                "message": "Invalid username and/or password."
+            })
+        user = authenticate(request, username=user.username, password=password)
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            next_view = dict(request.GET).get("next", "index")
-            return HttpResponseRedirect(reverse(next))
+            next_view = request.GET.get("next", "/")
+            return HttpResponseRedirect(next_view)
         else:
             return render(request, "app/login.html", {
                 "message": "Invalid username and/or password."
@@ -46,22 +55,19 @@ def logout_view(request):
 def register_view(request):
     if request.method == "POST":
         password = request.POST.get("password")
-        password_confirmation = request.POST.get("password_confirmation")
+        password_confirmation = request.POST.get("confirm-password")
         if password != password_confirmation:
             return render(request, "app/register.html", {
                 "message": "Passwords must match."
             })
         # Attempt to create new user
         try:
-            user = User(
-                email=request.POST.get("email"),
-                first_name=request.POST.get("first_name"),
-                last_name=request.POST.get("last_name"),
-                phone=request.POST.get("phone"),
-                image=request.POST.get("image"),
-                DOB=request.POST.get("DOB"),
-                address=request.POST.get("address")
-            )
+            user_form = UserForm(request.POST)
+            if not user_form.is_valid():
+                return render(request, "app/register.html", {
+                    "message": "Invalid data."
+                })
+            user = user_form.save()
             user.set_password(password)
             user.save()
         except IntegrityError:
@@ -69,7 +75,7 @@ def register_view(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        next_view = dict(request.GET).get("next", "index")
-        return HttpResponseRedirect(reverse(next))
+        next_view = dict(request.GET).get("next", "/")
+        return HttpResponseRedirect(next_view)
     return render(request, "app/register.html")
 

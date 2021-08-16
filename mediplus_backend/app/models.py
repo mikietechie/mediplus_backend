@@ -63,7 +63,7 @@ class FileField(models.FileField):
 class User(AbstractUser):
     phone = models.CharField(max_length=16, blank=True, null=True)
     address = models.TextField(max_length=512, blank=True, null=True)
-    image = ImageField(upload_to="users", blank=True, null=True)
+    #image = ImageField(upload_to="users", blank=True, null=True)
     DOB = models.DateField(blank=True, null=True)
 
 

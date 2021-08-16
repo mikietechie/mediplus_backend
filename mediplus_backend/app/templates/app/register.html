@@ -30,6 +30,13 @@
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <div class="form-floating">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="MZee" aria-describedby="username-help" required minlength="3" maxlength="128" />
+                            <label for="username">User Name</label>
+                        </div>
+                        <div id="username-help" class="form-text text-end text-info">Your User Name</div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-floating">
                             <input type="email" name="email" id="email" class="form-control" placeholder="mzee@somewhere.com" aria-describedby="email-help" required minlength="3" maxlength="128" />
                             <label for="email">Email</label>
                         </div>
@@ -59,17 +66,19 @@
                         <div id="address-help" class="form-text text-end text-info">Your Address</div>
                     </div>
                 </div>
-                <div class="row mb-4 d-flex justify-content-between">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                          <input type="file" class="form-control" id="image" name="image" placeholder="name@example.com" />
-                          <label for="image">Profile Photo</label>
+                <!--
+                    <div class="row mb-4 d-flex justify-content-between">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                            <input type="file" class="form-control" id="image" name="image" placeholder="name@example.com" />
+                            <label for="image">Profile Photo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="" alt="" id="img-display" class="img-thumbnail m-auto d-none">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <img src="" alt="" id="img-display" class="img-thumbnail m-auto d-none">
-                    </div>
-                </div>
+                -->
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <div class="form-floating">
@@ -113,11 +122,13 @@
             background-repeat: repeat-y;
             background-size: cover;
         }
+        /*
         #img-display {
             width: auto;
             max-width: 100%;
             max-height: 200px;
         }
+        */
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -127,8 +138,10 @@
             const focus = (inputID) => select(inputID).focus();
             const scrollTo = (inputID) => window.scrollTo(0, select(inputID).offsetTop)
             let form = select("#register-form");
+            /*
             let imageInput = select("#image");
             let img = select("#img-display");
+            */
 
             const showError = (message, inputID) => {
                 select(".alert-warning").innerText = message;
@@ -139,7 +152,7 @@
                     focus(inputID)
                 }, 1000)
             }
-
+            /*
             on(imageInput, "change", () => {
                 if (imageInput.files.length) {
                     img.classList.remove("d-none");
@@ -153,6 +166,7 @@
                     img.classList.add("d-none")
                 }
             })
+            */
 
             if (select(".alert-danger")) {scrollTo(".alert-danger")}
             
