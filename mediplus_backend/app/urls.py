@@ -24,7 +24,14 @@ from app.views import (
     index_view,
     login_view,
     register_view,
-    logout_view
+    logout_view,
+    account_view,
+    categories_view,
+    brands_view,
+    products_view,
+    product_view,
+    about_view,
+    contact_view
 )
 
 
@@ -51,5 +58,12 @@ urlpatterns = [
     path("login/", login_view, name="login_view"),
     path("logout/", logout_view, name="logout_view"),
     path("register/", register_view, name="register_view"),
+    path("account/", account_view, name="account_view"),
+    path("products/", products_view, name="products_view"),
+    path("brands/", brands_view, name="brands_view"),
+    path("categories/", categories_view, name="categories_view"),
+    path("product/<int:pk>/", product_view, name="product_view"),
+    path("about/", about_view, name="about_view"),
+    path("contact/", contact_view, name="contact_view"),
     path("", index_view, name="index_view"),
 ]

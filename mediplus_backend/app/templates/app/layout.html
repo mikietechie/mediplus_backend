@@ -7,6 +7,9 @@
         <meta name="description" content="">
         <meta name="author" content="Mike Zinyoni @aone software systems">
         <title>{% block title %}{{company.name}} | Site{% endblock title %}</title>
+        {% block meta %}
+          
+        {% endblock meta %}
 
         <!-- Bootstrap core CSS -->
         <link href="{% static 'app/lib/bootstrap5/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -15,6 +18,8 @@
         <link href="{% static 'app/lib/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
 
         <link rel="stylesheet" href="{% static 'app/css/styles.css' %}">
+        {% block styles %}
+        {% endblock styles %}
     </head>
     <body>
         <!--Header-->
@@ -29,6 +34,12 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
             <i class="bx bx-up-arrow"></i>
         </a>
+        <form class="d-none" id="information-form">
+            <input type="number" name="current-user-id" id="current-user-id" value="{{request.user.pk}}">
+            <input type="number" name="active-cart-id" id="active-cart-id" value="{{request.user.active_cart.pk}}">
+            <input type="text" name="current-user-name" id="current-user-name" value="{{request.user.username}}">
+            <input type="text" name="active-cart-name" id="active-cart-name" value="{{request.user.active_cart.name}}">
+        </form>
         <!--Pre loader-->
         <div id="preloader"></div>
         <!--JS static files-->
@@ -40,5 +51,6 @@
         <script src="{% static 'app/js/zoom-image.js' %}"></script>
         <script src="{% static 'app/js/send-email.js' %}"></script>
         <script src="{% static 'app/js/main.js' %}"></script>
+        {% block scripts %}{% endblock scripts %}
     </body>
 </html>

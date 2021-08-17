@@ -1,0 +1,34 @@
+{% extends 'app/layout.html' %}
+{% block title %}
+  {{request.user}} | Medi Plus | Account
+{% endblock title %}
+
+{% block body %}
+<section class="account py-5" id="account">
+    <h2 class="text-center text-white">Medi Plus Welcomes you {{request.user}} <i class="bx bx-been-here"></i></h2>
+    <div class="container-fluid">
+        <div class="row">
+            <a href="/account/carts" class="col-md-5 col-sm-8 col-xs mx-auto py-5 my-4 btn btn-primary">
+                Carts
+            </a>
+            <a href="/account/watchlist" class="col-md-5 col-sm-8 col-xs mx-auto py-5 my-4 btn btn-primary">
+                Watch List
+            </a>
+            <a href="/account/profile" class="col-md-5 col-sm-8 col-xs mx-auto py-5 my-4 btn btn-primary">
+                Profile
+            </a>
+            <a href="/account/carts" class="col-md-5 col-sm-8 col-xs mx-auto py-5 my-4 btn btn-primary">
+                Carts
+            </a>
+        </div>
+    </div>
+</section>
+<style>
+    body {
+        background-image: url("/static/app/img/pillsn1.jpeg");
+        background-position: center;
+        background-repeat: repeat-y;
+        background-size: cover;
+    }
+</style>
+{% endblock body %}

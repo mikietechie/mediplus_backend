@@ -65,10 +65,12 @@ class User(AbstractUser):
     address = models.TextField(max_length=512, blank=True, null=True)
     #image = ImageField(upload_to="users", blank=True, null=True)
     DOB = models.DateField(blank=True, null=True)
-
+    active_cart = models.ForeignKey("Cart", on_delete=models.CASCADE, related_name="user_active_cart", blank=True, null=True, limit_choices_to={
+        "user__id": id
+    })
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return self.username or self.first_name + self.last_name
     
     @property
     def carts(self): return self.user_carts.all()
@@ -81,6 +83,13 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ["id"]
+    
+    def save(self, *args, **kwargs):
+        if not self.is_staff and not self.carts.count():
+            initial_cart = Cart.objects.create(name="Cart One", user=self, status="active")
+            self.active_cart = initial_cart
+        super().save(*args, **kwargs)
+        
 
 
 class Category(HasName, HasStars):

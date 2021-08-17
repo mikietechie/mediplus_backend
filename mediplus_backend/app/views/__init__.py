@@ -23,5 +23,12 @@ from .http_views import (
     index_view,
     login_view,
     register_view,
-    logout_view
+    logout_view,
+    account_view,
+    categories_view,
+    brands_view,
+    products_view,
+    product_view,
+    about_view,
+    contact_view
 )

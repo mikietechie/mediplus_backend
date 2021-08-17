@@ -1,15 +1,17 @@
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo">{{company.name}}</h1>
+        <h1 class="logo">Medi Plus</h1>
         <nav id="navbar" class="navbar">
         <ul>
-            <li><a class="nav-link scrollto active" href="#hero">Home <i class="bx bx-home"></i></a></li>
-            <li><a class="nav-link scrollto" href="#about">About <i class="bx bx-accessibility"></i></a></li>
-            <li><a class="nav-link scrollto" href="#contact">Contact <i class="bx bx-phone"></i></a></li>
-            <li class="dropdown"><a href="#"><span>More</span> <i class="bi bi-chevron-down"></i></a>
+            <li><a class="nav-link scrollto active" href="/">Home <i class="bx bx-home"></i></a></li>
+            <li><a class="nav-link scrollto" href="/about/">About <i class="bx bx-info-circle"></i></a></li>
+            <li><a class="nav-link scrollto" href="/contact/">Contact <i class="bx bx-phone"></i></a></li>
+            <li><a class="nav-link scrollto" href="/products/">Products <i class="bx bx-cart"></i></a></li>
+            <!--
+            <li class="dropdown"><a href="#"><span>More</span> <i class="bx bx-chevron-down"></i></a>
             <ul>
-                <li class="dropdown"><a href="#"><span>Many More</span> <i class="bi bi-chevron-right"></i></a>
+                <li class="dropdown"><a href="#"><span>Many More</span> <i class="bx bx-chevron-right"></i></a>
                 <ul>
                     <li><a href="/frequently-asked-questions">Frequently Asked Questions <i class="bx bx-question-mark"></i></a></li>
                     <li><a href="/privacy-policy">Privacy Policy <i class="bx bx-code"></i></a></li>
@@ -20,8 +22,16 @@
                 <li><a href="/gallery">Our gallery <i class="bx bx-photo-album"></i></a></li>
                 <li><a href="/works">Our works <i class="bx bx-archive"></i></a></li>
             </ul>
+            -->
             </li>
             {% block navbar-action %}
+              {% if request.user.is_authenticated %}
+                <li>
+                  <a class="nav-link scrollto" href="/account/">Account <i class="bx bxs-user-account"></i></a>
+                </li>
+              {% else %}
+                <li class="dropdown"><a href="/login/"><span>Login</span> <i class="bx bx-log-in"></i></a>
+              {% endif %}
             {% endblock navbar-action %}
         </ul>
         <i class="bx bx-menu mobile-nav-toggle"></i>
@@ -340,8 +350,18 @@
     /**
      * Navbar links active state on scroll
      */
+    
     let navbarlinks = select('#navbar .scrollto', true)
     const navbarlinksActive = () => {
+      navbarlinks.forEach(navbarlink => {
+        if (!navbarlink.href) return
+        if (window.location.pathname === navbarlink.pathname){
+          navbarlink.classList.add('active')
+        } else {
+          navbarlink.classList.remove('active')
+        }
+      })
+      /*
       let position = window.scrollY + 200
       navbarlinks.forEach(navbarlink => {
         if (!navbarlink.hash) return
@@ -352,10 +372,11 @@
         } else {
           navbarlink.classList.remove('active')
         }
-      })
+      })*/
     }
     window.addEventListener('load', navbarlinksActive)
-    onscroll(document, navbarlinksActive)
+    //  onscroll(document, navbarlinksActive)
+    
   
     /**
      * Toggle .header-scrolled class to #header when page is scrolled
