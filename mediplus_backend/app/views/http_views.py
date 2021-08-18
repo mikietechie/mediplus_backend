@@ -36,6 +36,8 @@ def products_view(request):
     filters = clean_filters(request.GET)
     page = get_and_pop_from_dict(filters, "page")
     per_page = get_and_pop_from_dict(filters, "per_page") or 24
+    for (k, v) in [i for i in filters.items()]:
+        if not v: filters.pop(k)
     products_query_set = Product.objects.filter(**filters)
     paginator = Paginator(products_query_set, per_page=per_page)
     page = paginator.get_page(page)

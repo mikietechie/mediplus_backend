@@ -24,14 +24,23 @@
             </ul>
             -->
             </li>
+            {% if request.user.is_authenticated %}
+              <li>
+                <a class="nav-link scrollto" href="/account/">Account <i class="bx bxs-user-account"></i></a>
+              </li>
+            {% else %}
+              <li class="dropdown"><a href="/login/"><span>Login</span> <i class="bx bx-log-in"></i></a>
+            {% endif %}
             {% block navbar-action %}
-              {% if request.user.is_authenticated %}
-                <li>
-                  <a class="nav-link scrollto" href="/account/">Account <i class="bx bxs-user-account"></i></a>
-                </li>
-              {% else %}
-                <li class="dropdown"><a href="/login/"><span>Login</span> <i class="bx bx-log-in"></i></a>
-              {% endif %}
+            <li>
+              <a class="getstarted scrollto" href="account/cart/{{request.user.active_cart.id}}">
+                <span>
+                  <span class="active-cart-name">{{request.user.active_cart}}</span> | $
+                  <span class="active-cart-total">{{request.user.active_cart.total}}</span>
+                </span>
+                <span class="d-lg-none">Checkout</span>
+              </a>
+            </li>
             {% endblock navbar-action %}
         </ul>
         <i class="bx bx-menu mobile-nav-toggle"></i>
@@ -138,10 +147,11 @@
     color: #fff;
     border-color: #fff;
     }
-
+  
     .navbar .getstarted:before, .navbar li:hover > .getstarted:before {
     visibility: hidden;
     }
+    
 
     .navbar .dropdown ul {
     display: block;
@@ -196,12 +206,12 @@
     }
 
     @media (max-width: 1366px) {
-    .navbar .dropdown .dropdown ul {
-        left: -90%;
-    }
-    .navbar .dropdown .dropdown:hover > ul {
-        left: -100%;
-    }
+      .navbar .dropdown .dropdown ul {
+          left: -90%;
+      }
+      .navbar .dropdown .dropdown:hover > ul {
+          left: -100%;
+      }
     }
 
     /**
@@ -217,12 +227,15 @@
     }
 
     @media (max-width: 991px) {
-    .mobile-nav-toggle {
-        display: block;
-    }
-    .navbar ul {
-        display: none;
-    }
+      .navbar .getstarted {
+        background: linear-gradient(45deg, rgba(86, 58, 250, 0.9) 0%, rgba(0, 255, 255, 0.9) 100%) !important;
+      }
+      .mobile-nav-toggle {
+          display: block;
+      }
+      .navbar ul {
+          display: none;
+      }
     }
 
     .navbar-mobile {

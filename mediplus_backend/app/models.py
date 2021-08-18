@@ -65,9 +65,7 @@ class User(AbstractUser):
     address = models.TextField(max_length=512, blank=True, null=True)
     #image = ImageField(upload_to="users", blank=True, null=True)
     DOB = models.DateField(blank=True, null=True)
-    active_cart = models.ForeignKey("Cart", on_delete=models.CASCADE, related_name="user_active_cart", blank=True, null=True, limit_choices_to={
-        "user__id": id
-    })
+    active_cart = models.ForeignKey("Cart", on_delete=models.CASCADE, related_name="user_active_cart", blank=True, null=True)
 
     def __str__(self):
         return self.username or self.first_name + self.last_name
@@ -268,7 +266,7 @@ class CartItem(models.Model):
         for cart_item in self.cart.cart_items:
             if cart_item.product.pk == self.product.pk:
                 return CartItem.objects.filter(pk=cart_item.pk).update(quantity = self.quantity, description = self.description)
-        super().save(self, *args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self): return f"{self.product} {self.quantity}"
 

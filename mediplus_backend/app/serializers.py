@@ -106,7 +106,19 @@ class CartSerializer(ModelSerializer):
             {
                 **self.data,
                 "items": [CartItemSerializer(cart_item).full_data for cart_item in self.instance.cart_items],
-                'total': self.instance.total
+                'total': self.instance.total,
+                'items_count': self.instance.items_count
+            },
+            serializer=self
+        )
+    
+    @property
+    def mini_data(self):
+        return ReturnDict(
+            {
+                **self.data,
+                'total': self.instance.total,
+                'items_count': self.instance.items_count
             },
             serializer=self
         )

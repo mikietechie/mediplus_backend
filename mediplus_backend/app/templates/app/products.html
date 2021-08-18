@@ -1,0 +1,153 @@
+{% extends 'app/layout.html' %}
+{% block title %}
+  Medi Plus | Products
+{% endblock title %}
+{% block body %}
+  <section id="products" class="products py-1 mt-5">
+      <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-2 col-md-12">
+                <form action="/products/" method="get">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-6 mb-2">
+                                <div class="form-floating">
+                                    <select name="brand__name" id="brand-name" value="" class="form-control form-select" placeholder="brand name">
+                                        <option value="">All</option>
+                                        {% for brand in company.brands %}
+                                        <option value="{{brand.name}}">{{brand.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <label for="brand-name">Brand</label>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="col-sm-12 mb-2">
+                                <div class="form-floating">
+                                    <select name="category__in" id="category-name" class="form-control form-select" style="height: 8rem;" placeholder="category name" multiple="multiple">
+                                        <option value="">All</option>
+                                        {% for category in company.categories %}
+                                        <option value="{{category.pk}}">{{category.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <label for="category-name">Category</label>
+                                </div>
+                            </div>
+                            -->
+                            <div class="col-lg-12 col-md-2 mb-2">
+                                <div class="form-floating">
+                                    <input type="number" name="price__gte" id="min-price" class="form-control" value="0" min="0" placeholder="0.00" />
+                                    <label for="min-price">Min Price</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-2 mb-2">
+                                <div class="form-floating">
+                                    <input type="number" name="price__lte" id="max-price" class="form-control" value="0" min="0" placeholder="0.00" />
+                                    <label for="max-price">Min Price</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-2">
+                                <button class="btn btn-success mx-auto" type="submit">Filter <i class="bx bx-filter"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-10 col-md-12">
+                <div class="container-fluid">
+                    <div class="row">
+                        {% for product in page %} 
+                          <div class="col-lg-4 col-md-6 my-1">
+                              <div class="card product" product-name="{{product.name}}" product-selling-price="{{product.selling_price}}" style="width: 18rem;">
+                                  <img src="{% firstof product.image '/static/app/img/pillsn3.jpeg' %}" class="card-img-top" style="height: 15rem;" alt="...">
+                                  <div class="card-body">
+                                      <h5 class="card-title">{{product.name}} at <i class="bx bx-dollar"></i>{{product.price}}</h5>
+                                      <h6 class="card-title">by {{product.brand}} in {% for category in product.categories %}{{category}}{% endfor %}</h6>
+                                      <p class="card-text">{{ product.description |truncatewords:5 }}</p>
+                                      <a href="/product/{{product.pk}}" class="btn btn-link w-100">View</a>
+                                  </div>
+                                  <div class="card-footer">
+                                    <form action="/api/cart_items_api_view/data/" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="0" name="quantity" class="quantity-input" max="{{product.quantity}}">
+                                        <input type="hidden" name="cart" class="cart-input" value="{{request.user.active_cart.pk}}">
+                                        <input type="hidden" name="product" class="product-input" value="{{product.id}}">
+										<span class="dynamic-info">
+											<span class="badge bg-dark">
+												<i class="bx bx-x"></i><span class="product-quantity">0</span>
+											</span>
+											<span class="badge bg-dark">
+												<i class="bx bx-dollar"></i>
+												<span class="total">0</span>
+											</span>
+										</span>
+                                        <span class="btn btn-success fab increment"><i class="bx bx-plus"></i></span>
+                                        <span class="btn btn-danger fab decrement"><i class="bx bx-minus"></i></span>
+                                        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                                    </form>
+                                  </div>
+                              </div>
+                          </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+          </div>
+
+      </div>
+  </section>
+  <style>
+      .fab {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          padding: 6px;
+      }
+  </style>
+	<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const $productElements = document.querySelectorAll(".product")
+        let $activeCartName = document.querySelectorAll(".active-cart-name")
+        let $activeCartTotal = document.querySelectorAll(".active-cart-total")
+        const updateActiveCart = async () => {
+            let res = await fetch(`/api/carts_detail_api_view/mini_data/?id={{request.user.active_cart.id}}`)
+            let data = await res.json()
+            $activeCartTotal.forEach(el => {el.innerText = data.total})
+        }
+        $productElements.forEach(productElement => {
+            let $productElementForm = productElement.querySelector("form")
+			const updateForm = (increment=true) => {
+				let currentQuantity = parseFloat($productElementForm.querySelector(".quantity-input").value)
+				if (increment) {
+					currentQuantity++
+				} else {
+					currentQuantity--
+				}
+				$productElementForm.querySelector(".quantity-input").value = currentQuantity
+				$productElementForm.querySelector(".product-quantity").innerText = currentQuantity
+				$productElementForm.querySelector(".total").innerText = Number(currentQuantity * productElement.getAttribute("product-selling-price")).toFixed(2)
+			}
+            $productElementForm.querySelector(".increment").addEventListener("click", () => updateForm(true))
+            $productElementForm.querySelector(".decrement").addEventListener("click", () => updateForm(false))
+			$productElementForm.addEventListener("submit", async (e) => {
+				e.preventDefault()
+				let formData = new FormData($productElementForm)
+                let res = await fetch($productElementForm.getAttribute("action"), {
+					method: 'POST',
+					body: formData,
+					headers: {'X-Requested-With': 'XMLHttpRequest'}
+				})
+                try {
+                    if (res.ok) {
+                        let data = await res.json()
+                        console.log(data)
+                        updateActiveCart()
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+			})
+        })
+    })
+</script>
+{% endblock body %}

@@ -373,6 +373,7 @@ class CartItemAPIView(APIView):
         if serialized_cart_item.is_valid():
             serialized_cart_item.save()
             return Response(getattr(serialized_cart_item, serializer_data), status=status.HTTP_201_CREATED)
+        print(serialized_cart_item.errors)
         return Response(serialized_cart_item.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
