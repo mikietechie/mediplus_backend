@@ -36,9 +36,10 @@ def products_view(request):
     filters = clean_filters(request.GET)
     page = get_and_pop_from_dict(filters, "page")
     per_page = get_and_pop_from_dict(filters, "per_page") or 24
+    order_by = get_and_pop_from_dict(filters, "order_by")
     for (k, v) in [i for i in filters.items()]:
         if not v: filters.pop(k)
-    products_query_set = Product.objects.filter(**filters)
+    products_query_set = Product.objects.filter(**filters).order_by(f"{order_by}") if order_by else Product.objects.filter(**filters)
     paginator = Paginator(products_query_set, per_page=per_page)
     page = paginator.get_page(page)
     return render(request, "app/products.html", dict(

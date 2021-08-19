@@ -176,7 +176,7 @@ class PrescribePermission(models.Model):
 class Watch(models.Model):
     product = models.ForeignKey(Product, related_name="product_watches", on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, related_name="user_watch_list", on_delete=models.CASCADE)
-    priority = models.IntegerField(choices=[(i,i) for i in range(0,6)])
+    priority = models.IntegerField(choices=[(i,i) for i in range(0,6)], default=3)
     timestamp = models.DateTimeField("Created on", auto_now_add=True)
 
     def __str__(self): return f"{self.user} watching {self.item}"
