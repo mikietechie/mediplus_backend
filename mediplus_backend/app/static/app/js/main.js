@@ -32,9 +32,14 @@
         }
       }
     }
-    const getInputValue = (inputID) => select(inputID).value;
-    const focus = (inputID) => select(inputID).focus();
+    const getValue = (element) => element.value
+    const getInputValue = (inputID) => getValue(select(inputID))
+    const setValue = (element, value) => {element.value = value}
+    const setInputValue = (inputID, value) => setValue(select(inputID), value)
+    const focus = (inputID) => select(inputID).focus()
     const scrollTo = (inputID) => window.scrollTo(0, select(inputID).offsetTop)
+    const getAttr = (element, attr) => element.getAttribute(attr)
+    const onclicked = (element, listener) => element.addEventListener("click", listener)
   
     /**
      * Easy on scroll event listener 
@@ -144,8 +149,8 @@
      * Snackbar service
      */
     let $snackbar = document.querySelector(".snackbar")
-    let $alert = $snackbar.querySelector(".alert")
-    let $snackbarMessage = $alert.querySelector(".snackbar-message")
+    let $snackbarAlert = $snackbar.querySelector(".alert")
+    let $snackbarMessage = $snackbarAlert.querySelector(".snackbar-message")
     $snackbar.querySelector("button").addEventListener("click", () => {
         $snackbar.querySelector(".snackbar-message").innerHTML = ''
         $snackbar.style.visibility = "hidden"
@@ -154,10 +159,48 @@
      * Show snackbar func
      */
     const showSnackbar = (message, _class="info") => {
-        $alert.classList.replace($alert.classList[2], `alert-${_class}`)
+        $snackbarAlert.classList.replace($snackbarAlert.classList[2], `alert-${_class}`)
         $snackbarMessage.innerHTML = `${$snackbarMessage.innerHTML}` + message
         $snackbar.style.visibility = "visible"
     }
+    /**
+   * Snackbar service
+   */
+      let $alertbar = select(".alertbar")
+      let $alertbarAlert = $alertbar.querySelector(".alert")
+      let $alertbarQuestion = $alertbarAlert.querySelector(".alertbar-question")
+      let $alertbarPositiveButton = $alertbarAlert.querySelector(".positive")
+      let $alertbarNegativeButton = $alertbarAlert.querySelector(".negative")
+      let $alertbarCloseButton = $alertbarAlert.querySelector(".btn-close")
+      /**
+      * Show alertbar func
+      */
+      const closeAlertBar = () => {
+          $alertbar.querySelector(".alertbar-question").innerHTML = ''
+          $alertbar.style.visibility = "hidden"
+      }
+      const showAlertbar = (
+        question, on_confirm=()=>null, on_reject=()=>null,  _class="dark",
+        positive=`<i class="bx bx-circle"></i> Yes`,
+        negative=`<i class="bx bx-x"></i> No`
+        ) => {
+          $alertbarAlert.classList.replace($alertbarAlert.classList[2], `alert-${_class}`)
+          $alertbarQuestion.innerHTML = question
+          $alertbarPositiveButton.innerHTML = positive
+          $alertbarNegativeButton.innerHTML = negative
+          $alertbar.style.visibility = "visible"
+          onclicked($alertbarPositiveButton, () => {
+            closeAlertBar()
+            on_confirm()
+          })
+          onclicked($alertbarNegativeButton, () => {
+            closeAlertBar()
+            on_reject()
+          })
+          onclicked($alertbarCloseButton, () => {
+            closeAlertBar()
+          })
+      }
     
 
     /**
@@ -191,28 +234,38 @@
         $activeCartTotal.forEach(el => {el.innerText = cart.total})
         showSnackbar(`${cart.name} successfully updated to ${cart.items_count} items at $${cart.total}`)
     }
-    $productElements.forEach(productElement => {
-      let $addWatchForm = productElement.querySelector(".add-watch-form")
-      $addWatchForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData($addWatchForm)
-        let res = await postFormData($addWatchForm.getAttribute("action"), formData)
-        try {
-          if (res.ok) {
-            showSnackbar(`<p class="text-success">Successfully added ${productElement.getAttribute("product-name")} to your watchlist!</p>`)
-          } else {
-            showSnackbar(`<p class="text-warning">Could not add ${productElement.getAttribute("product-name")} to your watchlist. Most probably its already on your watchlist!</p>`) 
-          }
-        } catch (error) {
-          console.log(error)
-          showSnackbar(`<p class="text-danger">Failed to add ${productElement.getAttribute("product-name")} to your watchlist!</p>`)
-        }
 
-      })
-        let $productElementForm = productElement.querySelector(".add-cart-item-form")
-        if (!$productElementForm) return
-        const updateProductElementForm = (increment=true, number=0) => {
-            let currentQuantity = parseFloat($productElementForm.querySelector(".quantity-input").value)
+    const updateWatchList = async () => {
+      alert("Updated Watch List")
+    }
+
+
+    $productElements.forEach(productElement => {
+      const $addWatchForm = productElement.querySelector(".add-watch-form")
+      if ($addWatchForm) {
+        $addWatchForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData($addWatchForm)
+          let res = await postFormData($addWatchForm.getAttribute("action"), formData)
+          try {
+            if (res.ok) {
+              showSnackbar(`<p class="text-success">Successfully added ${productElement.getAttribute("product-name")} to your watchlist!</p>`)
+            } else {
+              showSnackbar(`<p class="text-warning">Could not add ${productElement.getAttribute("product-name")} to your watchlist. Most probably its already on your watchlist!</p>`) 
+            }
+          } catch (error) {
+            console.log(error)
+            showSnackbar(`<p class="text-danger">Failed to add ${productElement.getAttribute("product-name")} to your watchlist!</p>`)
+          }
+  
+        })
+      }
+
+      const $addCartItemForm = productElement.querySelector(".add-cart-item-form")
+      if ($addCartItemForm) {
+        const $addCartItemFormQuantityInput = $addCartItemForm.querySelector(".quantity-input")
+        const updateAddCartItemForm = (increment=true, number=0) => {
+            let currentQuantity = parseFloat($addCartItemFormQuantityInput.value)
             let productQuantity = parseFloat(productElement.getAttribute("product-quantity"))
             if (number) {
                 currentQuantity = number
@@ -226,27 +279,34 @@
             } else if (currentQuantity < 0) {
               currentQuantity = 0
             }
-            $productElementForm.querySelector(".quantity-input").value = currentQuantity
-            $productElementForm.querySelector(".product-quantity").innerText = currentQuantity
-            $productElementForm.querySelector(".total").innerText = Number(currentQuantity * productElement.getAttribute("product-selling-price")).toFixed(2)
+            $addCartItemFormQuantityInput.value = currentQuantity
+            const $addCartItemFormProductQuantity = $addCartItemForm.querySelector(".product-quantity")
+            const $addCartItemFormProductTotal = $addCartItemForm.querySelector(".total")
+            if ($addCartItemFormProductQuantity && $addCartItemFormProductTotal) {
+              $addCartItemForm.querySelector(".product-quantity").innerText = currentQuantity
+              $addCartItemForm.querySelector(".total").innerText = Number(currentQuantity * productElement.getAttribute("product-selling-price")).toFixed(2)
+            }
         }
-        $productElementForm.querySelector(".increment").addEventListener("click", () => updateProductElementForm(true))
-        $productElementForm.querySelector(".decrement").addEventListener("click", () => updateProductElementForm(false))
-        $productElementForm.querySelector(".quantity-input").addEventListener("input", (e) => updateProductElementForm(number=e.targe.value))
-        $productElementForm.addEventListener("submit", async (e) => {
+        const $addCartItemFormIncrementButton = $addCartItemForm.querySelector(".increment")
+        const $addCartItemFormDecrementButton = $addCartItemForm.querySelector(".decrement")
+        if ($addCartItemFormIncrementButton && $addCartItemFormDecrementButton) {
+          $addCartItemFormIncrementButton.addEventListener("click", () => updateAddCartItemForm(true))
+          $addCartItemFormDecrementButton.addEventListener("click", () => updateAddCartItemForm(false))
+        }
+        $addCartItemFormQuantityInput.addEventListener("input", (e) => updateAddCartItemForm(number=e.targe.value))
+        $addCartItemForm.addEventListener("submit", async (e) => {
             e.preventDefault()
-            let formData = new FormData($productElementForm)
-            let res = await postFormData($productElementForm.getAttribute("action"), formData)
+            let formData = new FormData($addCartItemForm)
+            let res = await postFormData($addCartItemForm.getAttribute("action"), formData)
             try {
                 if (res.ok) {
                     let cartItem = await res.json()
-                    console.log(cartItem)
                     showSnackbar(`<p class="text-success">Successfully added ${cartItem.product.name} <span class="badge bg-black">x${cartItem.quantity}</span>!</p>`)
                     updateActiveCart()
                 } else {
                   showSnackbar(`
                   <p class="text-warning">
-                    Failed to add ${productElement.getAttribute("product-name")} <span class="badge bg-black">x${parseFloat($productElementForm.querySelector(".quantity-input").value)}</span>!
+                    Failed to add ${productElement.getAttribute("product-name")} <span class="badge bg-black">x${parseFloat($addCartItemForm.querySelector(".quantity-input").value)}</span>!
                   </p>`)
                 }
             } catch (error) {
@@ -254,5 +314,52 @@
                 showSnackbar(`<p class="text-danger">A server error occured!</p>`)
             }
         })
+      }
+
+      const $deleteCartItemButton = productElement.querySelector(".deleteCartItemForm")
+      if ($deleteCartItemButton) {
+        onclicked($deleteCartItemButton, () => showAlertbar(`Do you truly wish to remove ${getAttr(productElement, "product-name")} from your cart?`, async () => {
+          const res = await fetch(`/api/cart_items_detail_api_view/data/?id=${getAttr(productElement, "cart-item-id")}`, {method: "DELETE"})
+          try {
+            if (res.ok) {
+                showSnackbar(`<p class="text-success">Successfully removed ${getAttr(productElement, "product-name")} from your cart!</p>`)
+                productElement.style.display = "none"
+                updateActiveCart()
+            } else {
+              showSnackbar(`
+              <p class="text-warning">
+                Failed to remove ${getAttr(productElement, "product-name")} from your cart!
+              </p>`)
+            }
+          } catch (error) {
+            console.log(error)
+            showSnackbar(`<p class="text-danger">A server error occured!</p>`)
+          }
+        })
+      )
+      }
+
+      const $deleteWatchItemButton = productElement.querySelector(".deleteWatchItemForm")
+      if ($deleteWatchItemButton) {
+        onclicked($deleteWatchItemButton, () => showAlertbar(`Do you truly wish to remove ${getAttr(productElement, "product-name")} from your watchlist?`, async () => {
+            const res = await fetch(`/api/watches_detail_api_view/data/?id=${getAttr(productElement, "watch-id")}`, {method: "DELETE"})
+            try {
+              if (res.ok) {
+                  showSnackbar(`<p class="text-success">Successfully removed ${getAttr(productElement, "product-name")} from your watchlist!</p>`)
+                  productElement.style.display = "none"
+                  updateWatchList()
+              } else {
+                showSnackbar(`
+                <p class="text-warning">
+                  Failed to remove ${getAttr(productElement, "product-name")} from your watch list!
+                </p>`)
+              }
+            } catch (error) {
+              console.log(error)
+              showSnackbar(`<p class="text-danger">A server error occured!</p>`)
+            }
+          })
+        )
+      }
     })
 })()

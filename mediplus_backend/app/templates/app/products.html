@@ -74,7 +74,7 @@ Medi Plus | Products
                 <div class="row">
                     {% for product in page %} 
                         <div class="col-lg-4 col-md-6 my-1">
-                            <div class="card product" product-name="{{product.name}}" product-selling-price="{{product.selling_price}}" product-quantity="{{product.quantity}}" style="width: 18rem;">
+                            <div class="card product" product-name="{{product.name}}" product-id="{{product.id}}" product-selling-price="{{product.selling_price}}" product-quantity="{{product.quantity}}" style="width: 18rem;">
                                 <img src="{% firstof product.image '/static/app/img/pillsn3.jpeg' %}" class="card-img-top" style="height: 15rem;" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">
