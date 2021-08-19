@@ -32,10 +32,12 @@ body {
     visibility: visible;
     opacity: 1;
 }
-/* Snackbar service */
-.snackbar {
+/* Snackbar service and  Snackbar service */
+.snackbar, .alertbar {
     width: 80%;
     visibility: hidden;
+    border-radius: 12px;
+    font-size: 20px;
 }
 
 /* PRELOADER */
