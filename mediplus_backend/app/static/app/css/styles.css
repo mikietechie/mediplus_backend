@@ -32,6 +32,11 @@ body {
     visibility: visible;
     opacity: 1;
 }
+/* Snackbar service */
+.snackbar {
+    width: 80%;
+    visibility: hidden;
+}
 
 /* PRELOADER */
 #preloader {

@@ -37,10 +37,15 @@
         <form class="d-none" id="information-form">
             <input type="number" name="current-user-id" id="current-user-id" value="{{request.user.pk}}">
             <input type="number" name="active-cart-id" id="active-cart-id" value="{{request.user.active_cart.pk}}">
-            <input type="text" name="current-user-name" id="current-user-name" value="{{request.user.username}}">
+            <input type="text" name="current-user-name" id="current-user-username" value="{{request.user.username}}">
             <input type="text" name="active-cart-name" id="active-cart-name" value="{{request.user.active_cart.name}}">
         </form>
-        {% include "app/snackbar.html" %}
+        <div class="snackbar fixed-bottom mx-auto fade show">
+            <div class="alert alert-dismissible alert-info" role="alert">
+                <p class="snackbar-message"></p>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+        </div>
         <!--Pre loader-->
         <div id="preloader"></div>
         <!--JS static files-->
