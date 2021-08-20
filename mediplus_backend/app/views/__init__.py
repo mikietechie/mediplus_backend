@@ -17,7 +17,10 @@ from .rest_views import (
     WatchAPIView,
     WatchDetailAPIView,
     PrescribePermissionAPIView,
-    PrescribePermissionDetailAPIView
+    PrescribePermissionDetailAPIView,
+    cart_delete_api_view,
+    cart_item_delete_api_view,
+    watch_delete_api_view
 )
 from .http_views import (
     index_view,

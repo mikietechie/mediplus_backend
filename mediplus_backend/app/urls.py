@@ -20,6 +20,9 @@ from app.views import (
     WatchDetailAPIView,
     PrescribePermissionAPIView,
     PrescribePermissionDetailAPIView,
+    cart_delete_api_view,
+    cart_item_delete_api_view,
+    watch_delete_api_view,
     #   HTTP SOAP Views
     index_view,
     login_view,
@@ -58,6 +61,14 @@ urlpatterns = [
     path('api/email/', email_API_view, name="EmailAPIView"),
     path('api/search/<str:search_string>/', product_search_API_view, name="SearchActionAPIView"),
     path('api/raw_sql/', raw_sql_API_view, name="RawSQLAPIView"),
+    
+    #   CSRF exempted delete api views
+    path("api/delete/watches_detail_api_view/<str:serializer_data>/", watch_delete_api_view),
+    path("api/delete/carts_detail_api_view/<str:serializer_data>/", cart_delete_api_view),
+    path("api/delete/cart_items_detail_api_view/<str:serializer_data>/", cart_item_delete_api_view),
+
+
+    #   http soap views
     path("login/", login_view, name="login_view"),
     path("logout/", logout_view, name="logout_view"),
     path("register/", register_view, name="register_view"),

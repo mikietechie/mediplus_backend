@@ -611,12 +611,29 @@ def raw_sql_API_view(request):
 
 
 ####    CSRF exempted delete api views to be removed when i find out how to do fetch delete requests
-
 @csrf_exempt
-def watch_delete_api(request):
+def watch_delete_api_view(request, serializer_data=None):
     try:
         watch = Watch.objects.get(**clean_filters(request.GET))
         watch.delete()
         return JsonResponse({"message": "Watch deleted successfully!"})
     except Watch.DoesNotExist:
+        return JsonResponse({"message": "Does not exist!"}, status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+def cart_delete_api_view(request, serializer_data=None):
+    try:
+        cart = Cart.objects.get(**clean_filters(request.GET))
+        cart.delete()
+        return JsonResponse({"message": "Cart deleted successfully!"})
+    except Cart.DoesNotExist:
+        return JsonResponse({"message": "Does not exist!"}, status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+def cart_item_delete_api_view(request, serializer_data=None):
+    try:
+        cart_item = CartItem.objects.get(**clean_filters(request.GET))
+        cart_item.delete()
+        return JsonResponse({"message": "CartItem deleted successfully!"})
+    except CartItem.DoesNotExist:
         return JsonResponse({"message": "Does not exist!"}, status=status.HTTP_404_NOT_FOUND)

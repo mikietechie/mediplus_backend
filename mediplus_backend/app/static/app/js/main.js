@@ -199,15 +199,18 @@
     $alertbarPositiveButton.innerHTML = positive
     $alertbarNegativeButton.innerHTML = negative
     $alertbar.style.visibility = "visible"
-    onclicked($alertbarPositiveButton, () => {
+    onclicked($alertbarPositiveButton, (e) => {
+      e.preventDefault()
       closeAlertBar()
       on_confirm()
     })
-    onclicked($alertbarNegativeButton, () => {
+    onclicked($alertbarNegativeButton, (e) => {
+      e.preventDefault()
       closeAlertBar()
       on_reject()
     })
-    onclicked($alertbarCloseButton, () => {
+    onclicked($alertbarCloseButton, (e) => {
+      e.preventDefault()
       closeAlertBar()
     })
   }
@@ -329,7 +332,7 @@
     const $deleteCartItemButton = productElement.querySelector(".delete-cart-item-button")
     if ($deleteCartItemButton) {
       onclicked($deleteCartItemButton, () => showAlertbar(`Do you truly wish to remove ${getAttr(productElement, "product-name")} from your cart?`, async () => {
-      const res = await ajaxDelete(`/api/cart_items_detail_api_view/data/?id=${getAttr(productElement, "cart-item-id")}`)
+      const res = await ajaxDelete(`/api/delete/cart_items_detail_api_view/data/?id=${getAttr(productElement, "cart-item-id")}`)
       try {
         if (res.ok) {
           showSnackbar(`<p class="text-success">Successfully removed ${getAttr(productElement, "product-name")} from your cart!</p>`)
@@ -352,7 +355,7 @@
     const $deletWatchButton = productElement.querySelector(".delete-watch-button")
     if ($deletWatchButton) {
       onclicked($deletWatchButton, () => showAlertbar(`Do you truly wish to remove ${getAttr(productElement, "product-name")} from your watchlist?`, async () => {
-        const res = await ajaxDelete(`/api/watches_detail_api_view/data/?id=${getAttr(productElement, "watch-id")}`)
+        const res = await ajaxDelete(`/api/delete/watches_detail_api_view/data/?id=${getAttr(productElement, "watch-id")}`)
         try {
           if (res.ok) {
             showSnackbar(`<p class="text-success">Successfully removed ${getAttr(productElement, "product-name")} from your watchlist!</p>`)
