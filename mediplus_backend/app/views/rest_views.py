@@ -30,6 +30,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.utils.serializer_helpers import ReturnList, ReturnDict
+from rest_framework.parsers import JSONParser
 
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
@@ -471,7 +472,6 @@ class WatchDetailAPIView(APIView):
         watch.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 #   PrescribePermission model views
 class PrescribePermissionAPIView(APIView):
     
@@ -608,3 +608,15 @@ def raw_sql_API_view(request):
             )     
         except:
             return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+####    CSRF exempted delete api views to be removed when i find out how to do fetch delete requests
+
+@csrf_exempt
+def watch_delete_api(request):
+    try:
+        watch = Watch.objects.get(**clean_filters(request.GET))
+        watch.delete()
+        return JsonResponse({"message": "Watch deleted successfully!"})
+    except Watch.DoesNotExist:
+        return JsonResponse({"message": "Does not exist!"}, status=status.HTTP_404_NOT_FOUND)

@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -56,6 +56,20 @@ def product_view(request, pk):
 
 @login_required(login_url="/login")
 def account_view(request): return render(request, "app/account.html", dict(company = Company.objects.first()))
+
+@login_required(login_url="/login")
+def carts_view(request): return render(request, "app/carts.html", dict(company = Company.objects.first()))
+
+@login_required(login_url="/login")
+def cart_view(request, pk):
+    return render(request, "app/carts.html", dict(
+            company = Company.objects.first(),
+            cart=get_object_or_404(Cart, pk=pk, user__id=request.user.id)
+        )
+    )
+
+@login_required(login_url="/login")
+def watchlist_view(request): return render(request, "app/watchlist.html", dict(company = Company.objects.first()))
 
 #### AUTHENTICATION VIEWS ####
 def login_view(request):

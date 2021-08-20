@@ -40,6 +40,9 @@
             <input type="text" name="current-user-name" id="current-user-username" value="{{request.user.username}}">
             <input type="text" name="active-cart-name" id="active-cart-name" value="{{request.user.active_cart.name}}">
         </form>
+        <form class="d-none" id="base-form">
+            {% csrf_token %}
+        </form>
         <div class="snackbar fixed-bottom mx-auto fade show">
             <div class="alert alert-dismissible alert-info" role="alert">
                 <p class="snackbar-message"></p>
@@ -50,12 +53,14 @@
             <div class="alert alert-dismissible alert-dark" role="alert">
                 <p class="text-center">
                     <span class="alertbar-question"></span>
-                    <button class="btn btn-sm btn-success positive">
-                        <i class="bx bx-circle"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger negative">
-                        <i class="bx bx-x"></i>
-                    </button>
+                    <span class="d-block">
+                        <button class="btn btn-sm btn-success positive">
+                            <i class="bx bx-circle"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger negative">
+                            <i class="bx bx-x"></i>
+                        </button>
+                    </span>
                 </p>
                 <button type="button" class="btn-close" aria-label="Close"></button>
             </div>
@@ -63,6 +68,7 @@
         <!--Pre loader-->
         <div id="preloader"></div>
         <!--JS static files-->
+        <script src="{% static 'rest_framework/js/jquery-3.5.1.min.js' %}"></script>
         <script src="{% static 'app/lib/bootstrap5/js/bootstrap.bundle.js' %}"></script>
         <script src="{% static 'app/lib/mdb-bootstrap-5/js/mdb.min.js' %}"></script>
         <script src="{% static 'app/lib/swiper/swiper-bundle.min.js' %}"></script>

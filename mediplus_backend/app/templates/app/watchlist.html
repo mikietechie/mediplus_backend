@@ -1,0 +1,57 @@
+{% extends 'app/layout.html' %}
+{% block title %}
+Medi Plus | {{request.user.username}} | Watch List
+{% endblock title %}
+{% block body %}
+<section id="products" class="products py-1 mt-5">
+    <div class="container">
+        <div class="row">
+            {% for watch in request.user.watches %} 
+                <div class="col-lg-4 col-md-6 my-2">
+                    <div class="card product" product-name="{{watch.product.name}}" product-id="{{watch.product.id}}" product-selling-price="{{watch.product.selling_price}}" product-quantity="{{watch.product.quantity}}" watch-id="{{watch.id}}" style="width: 18rem;">
+                        <img src="{% firstof watch.product.image '/static/app/img/pillsn3.jpeg' %}" class="card-img-top" style="height: 15rem;" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="/product/{{watch.product.pk}}">{{watch.product.name}} at <i class="bx bx-dollar"></i>{{watch.product.price}}</a>
+                            </h5>
+                            <h6 class="card-title">by {{watch.product.brand}} in {% for category in watch.product.categories %}{{category}}{% endfor %}</h6>
+                            <p class="card-text">{{ watch.product.description |truncatewords:5 }}</p>
+                            <div class="card-actions d-inline-flex justify-content-evenly align-content-around w-100">
+                                <a href="/product/{{watch.product.pk}}" class="btn btn-secondary">View</a>
+                                <button class="btn btn-danger delete-watch-button">
+                                    <i class="bx bx-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                        {% if request.user.active_cart %}
+                            <form action="/api/cart_items_api_view/full_data/" method="POST" class="add-cart-item-form">
+                                {% csrf_token %}
+                                <input type="hidden" value="0" name="quantity" class="quantity-input" max="{{watch.product.quantity}}">
+                                <input type="hidden" name="cart" class="cart-input" value="{{request.user.active_cart.pk}}">
+                                <input type="hidden" name="product" class="product-input" value="{{watch.product.id}}">
+                                <span class="dynamic-info">
+                                    <span class="badge bg-dark">
+                                        <i class="bx bx-x"></i><span class="product-quantity">0</span>
+                                    </span>
+                                    <span class="badge bg-dark">
+                                        <i class="bx bx-dollar"></i>
+                                        <span class="total">0</span>
+                                    </span>
+                                </span>
+                                <span class="btn btn-success fab increment"><i class="bx bx-plus"></i></span>
+                                <span class="btn btn-danger fab decrement"><i class="bx bx-minus"></i></span>
+                                <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                            </form>
+                        {% else %}
+                            <a href="/account/carts/create" class="btn btn-primary">Create Cart</a>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

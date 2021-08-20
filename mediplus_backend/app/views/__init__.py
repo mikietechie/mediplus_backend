@@ -30,5 +30,8 @@ from .http_views import (
     products_view,
     product_view,
     about_view,
-    contact_view
+    contact_view,
+    carts_view,
+    cart_view,
+    watchlist_view
 )

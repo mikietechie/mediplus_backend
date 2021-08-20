@@ -32,7 +32,7 @@ class ProductSerializer(ModelSerializer):
         return ReturnDict(
             {
                 **self.data,
-                'brand': BrandSerializer(self.instance).data,
+                'brand': BrandSerializer(self.instance.brand).data,
                 'categories': [CategorySerializer(category).data for category in self.instance.categories],
                 "siblings": [ProductSerializer(sibling).data for sibling in self.instance.siblings],
                 "parents": [ProductSerializer(parent).data for parent in self.instance.parents],

@@ -31,7 +31,10 @@ from app.views import (
     products_view,
     product_view,
     about_view,
-    contact_view
+    contact_view,
+    carts_view,
+    cart_view,
+    watchlist_view
 )
 
 
@@ -63,6 +66,9 @@ urlpatterns = [
     path("brands/", brands_view, name="brands_view"),
     path("categories/", categories_view, name="categories_view"),
     path("product/<int:pk>/", product_view, name="product_view"),
+    path("account/cart/<int:pk>/", cart_view, name="cart_view"),
+    path("account/carts/", carts_view, name="carts_view"),
+    path("account/watchlist/", watchlist_view, name="watchlist_view"),
     path("about/", about_view, name="about_view"),
     path("contact/", contact_view, name="contact_view"),
     path("", index_view, name="index_view"),
